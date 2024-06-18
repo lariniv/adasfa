@@ -24,9 +24,9 @@ function Footer() {
             target="_blank"
             href="https://ien3r4fhpkk.typeform.com/to/tzSoVio1?typeform-source=www.linkedin.com"
           >
-            <p className="clip-gradient font-bold">
+            <span className="clip-gradient font-bold">
               Sign up to join our Platform!
-            </p>
+            </span>
           </Link>
         </div>
       </section>
@@ -63,7 +63,7 @@ function Footer() {
                 }}
                 className="footer-item text-start"
               >
-                For clients
+                For Clients
               </button>
               <button
                 onClick={() => {

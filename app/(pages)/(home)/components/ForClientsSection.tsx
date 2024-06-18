@@ -9,14 +9,14 @@ export default function ForClientsSection() {
           className="flex justify-between gap-36 items-center"
         >
           <div className="flex flex-col gap-7 text-primary px-2">
-            <h2 className="font-bold text-3xl max-sm:text-center max-sm:text-2xl">
+            <h2 className="font-bold text-2xl max-sm:text-center max-sm:text-xl">
               Why should you use Zenith AI Platform?
             </h2>
-            <div className="text-2xl flex flex-col gap-7">
-              <p className="font-bold max-sm:text-center max-sm:text-xl">
+            <div className="text-xl flex flex-col gap-7">
+              <p className="font-bold max-sm:text-center max-sm:text-lg">
                 {`Our Platform is your gateway to the world of AI solutions.`}
               </p>
-              <p className="w-full max-sm:text-center max-sm:text-base">
+              <p className="w-full max-sm:text-center max-sm:text-lg">
                 We connect proprietary data submitted by vendors with our
                 data-driven scorecards that assess the products. So you can make
                 sense of an increasingly fragmented, messy and noisy AI
@@ -35,16 +35,16 @@ export default function ForClientsSection() {
           </div>
         </div>
       </section>
-      <div className="max-w-5xl mt-20 w-full gap-16 flex flex-col font-bold text-2xl text-white">
+      <div className="max-w-5xl mt-20 w-full gap-16 flex flex-col font-bold text-xl text-white">
         <div className="flex justify-between items-start gap-1 max-md:flex-col">
           <div className="flex items-center justify-center flex-col gap-6 max-md:mx-auto max-md:w-full">
-            <Image alt="map" src={"/map.svg"} width={120} height={120} />
+            <Image alt="map" src={"/map.svg"} width={100} height={100} />
             <p className="text-center max-w-[240px]">
               Get access to exclusive lists and maps of AI products
             </p>
           </div>
           <div className="flex items-center justify-center flex-col gap-6 max-md:mx-auto max-md:w-full">
-            <Image alt="laptop" src={"/laptop.svg"} width={120} height={120} />
+            <Image alt="laptop" src={"/laptop.svg"} width={100} height={100} />
             <p className="text-center max-w-[240px]">
               Discover AI use cases for your organization
             </p>
@@ -53,15 +53,15 @@ export default function ForClientsSection() {
             <Image
               alt="strategy"
               src={"/strategy.svg"}
-              width={120}
-              height={120}
+              width={100}
+              height={100}
             />
             <p className="text-center max-w-[240px]">
               Learn how industry leaders implement AI
             </p>
           </div>
           <div className="flex items-center justify-center flex-col gap-6 max-md:mx-auto max-md:w-full">
-            <Image alt="db" src={"/db.svg"} width={120} height={120} />
+            <Image alt="db" src={"/db.svg"} width={100} height={100} />
             <p className="text-center max-w-[240px]">
               Use our proprietary data on AI products and implement with
               confidence

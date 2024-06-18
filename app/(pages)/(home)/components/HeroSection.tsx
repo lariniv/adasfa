@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 export default function HeroSection() {
   return (
-    <div className="h-full mt-28 text-white max-w-5xl max-md:px-2 w-full flex flex-col mx-auto gap-12 md:gap-2">
+    <div className="h-full mt-28 text-white max-w-5xl max-md:px-2 w-[95%] xl:w-full flex flex-col xl:mx-auto gap-12 md:gap-2 mx-5">
       <div className="w-full">
         <div className="flex flex-col gap-2 items-start">
           <div className="flex flex-col gap-16 items-start">
@@ -62,7 +62,7 @@ export default function HeroSection() {
         <div className="w-full md:w-1/2 flex flex-col gap-9">
           <h1 className="text-4xl font-bold max-md:text-center">
             Closing the AI adoption gap with an AI-native{" "}
-            <span className="lg:text-accent text-primary ">
+            <span className="lg:text-accent text-4xl font-bold text-primary ">
               market intelligence platform
             </span>
           </h1>
@@ -71,9 +71,9 @@ export default function HeroSection() {
             href={
               "https://ien3r4fhpkk.typeform.com/to/tzSoVio1?typeform-source=www.linkedin.com"
             }
-            className="flex bg-white w-full max-md:mx-auto max-w-[400px] rounded-md py-5 items-center justify-center"
+            className="flex bg-white w-full max-md:mx-auto duration-300 hover:opacity-80 max-w-[400px] rounded-md py-5 items-center justify-center"
           >
-            <span className="bg-clip-text font-bold text-white/40 bg-zenith-gradient text-2xl">
+            <span className="clip-gradient font-bold text-2xl">
               Sign up to join our Platform!
             </span>
           </Link>

@@ -39,7 +39,7 @@ function Header() {
               });
           }}
         >
-          For clients
+          For Clients
         </Button>
         <Button
           onClick={() => {
@@ -51,7 +51,7 @@ function Header() {
               });
           }}
         >
-          For vendors
+          For Vendors
         </Button>
         <Button target="_blank" href="https://zenithai.substack.com/">
           AI Strategy
@@ -111,7 +111,7 @@ function Header() {
             handleClick();
           }}
         >
-          For clients
+          For Clients
         </Button>
 
         <Button
@@ -125,7 +125,7 @@ function Header() {
             handleClick();
           }}
         >
-          For vendors
+          For Vendors
         </Button>
 
         <Button target="_blank" href="https://zenithai.substack.com/">

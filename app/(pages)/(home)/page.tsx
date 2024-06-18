@@ -1,8 +1,9 @@
-import HeroSection from "@/app/(pages)/(home)/components/HeroSection";
+import HeroSection from "./components/HeroSection";
 import ForVendorsSection from "./components/ForVendorsSection";
 import ForClientsSection from "./components/ForClientsSection";
 import AboutUsSection from "./components/AboutUsSection";
 import TeamSection from "./components/TeamSection";
+import OurPartners from "./components/OurPartnersSection";
 
 export default function Home() {
   return (
@@ -14,6 +15,8 @@ export default function Home() {
       <ForVendorsSection />
 
       <AboutUsSection />
+
+      <OurPartners />
 
       <TeamSection />
     </>

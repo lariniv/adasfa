@@ -22,10 +22,10 @@ export default function ForVendorsSection() {
             </div>
           </div>
           <div className="flex flex-col gap-7 text-primary px-2">
-            <h2 className="font-bold text-3xl max-lg:text-center">
+            <h2 className="font-bold text-2xl max-lg:text-center">
               Why should you join our Platform?
             </h2>
-            <div className="text-2xl flex flex-col gap-7">
+            <div className="text-xl flex flex-col gap-7">
               <p className="font-bold max-lg:text-center">
                 {`There’s no better way to gain visibility and engage with tech
   	            buyers.`}
@@ -40,7 +40,7 @@ export default function ForVendorsSection() {
                   href={
                     "https://ien3r4fhpkk.typeform.com/to/tzSoVio1?typeform-source=www.linkedin.com"
                   }
-                  className="flex w-fit text-center rounded-md font-bold items-center justify-center px-2 py-5 border border-primary max-sm:text-xl"
+                  className="flex w-fit text-center border-2 rounded-md font-bold items-center justify-center px-2 py-5 border-primary max-sm:text-xl"
                 >
                   Become verified Ai Vendor!
                 </Link>
@@ -49,14 +49,14 @@ export default function ForVendorsSection() {
           </div>
         </div>
       </section>
-      <div className="max-w-5xl mt-20 w-full md:gap-16 gap-4 flex flex-col font-bold text-2xl text-white">
+      <div className="max-w-5xl max-lg:px-5 w-full md:gap-16 gap-4 flex flex-col font-bold text-xl text-white mt-24">
         <div className="flex justify-between max-md:flex-col">
           <div className="flex items-center justify-center flex-col gap-6">
             <Image
               alt="handshake"
               src={"/handshake.svg"}
-              width={120}
-              height={120}
+              width={100}
+              height={100}
             />
             <p className="text-center">
               Get access to clients <br /> seeing AI products
@@ -66,15 +66,15 @@ export default function ForVendorsSection() {
             <Image
               alt="contract"
               src={"/contract.svg"}
-              width={120}
-              height={120}
+              width={100}
+              height={100}
             />
             <p className="text-center">
               Be seen in RFPs among <br /> hundreds of buyers
             </p>
           </div>
           <div className="flex items-center justify-center flex-col gap-6">
-            <Image alt="geo" src={"/geo.svg"} width={120} height={120} />
+            <Image alt="geo" src={"/geo.svg"} width={100} height={100} />
             <p className="text-center">
               Get visibility in the <br /> AI ecosystem
             </p>
@@ -82,13 +82,13 @@ export default function ForVendorsSection() {
         </div>
         <div className="flex mx-auto md:gap-40 max-md:flex-col">
           <div className="flex items-center justify-center flex-col gap-6">
-            <Image alt="trophy" src={"/trophy.svg"} width={120} height={120} />
+            <Image alt="trophy" src={"/trophy.svg"} width={100} height={100} />
             <p className="text-center">
               Get access to clients <br /> seeing AI products
             </p>
           </div>
           <div className="flex items-center justify-center flex-col gap-6">
-            <Image alt="table" src={"/table.svg"} width={120} height={120} />
+            <Image alt="table" src={"/table.svg"} width={100} height={100} />
             <p className="text-center">
               Be seen in RFPs among <br /> hundreds of buyers
             </p>
