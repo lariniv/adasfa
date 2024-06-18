@@ -35,8 +35,8 @@ export default function ForClientsSection() {
           </div>
         </div>
       </section>
-      <div className="max-w-5xl mt-20 w-full gap-16 flex flex-col font-bold text-xl text-white">
-        <div className="flex justify-between items-start gap-1 max-md:flex-col">
+      <div className="max-w-5xl mt-20 w-full gap-16 flex flex-col font-bold text-xl text-white max-lg:px-5">
+        <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 justify-between items-start gap-1 max-md:flex-col">
           <div className="flex items-center justify-center flex-col gap-6 max-md:mx-auto max-md:w-full">
             <Image alt="map" src={"/map.svg"} width={100} height={100} />
             <p className="text-center max-w-[240px]">
