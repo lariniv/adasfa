@@ -69,10 +69,10 @@ function Card({
   title: string;
 }) {
   return (
-    <div className="flex max-lg:flex-col max-lg:items-center gap-[2.25rem]">
-      <div className="w-full max-w-[176px] aspect-square flex items-center justify-center">
+    <div className="max-lg:flex max-lg:flex-col grid grid-cols-[176px,1fr]  max-lg:items-center gap-[2.25rem]">
+      <div className="w-[176px] max-w-[176px] flex items-center justify-center">
         <Image
-          className="w-full h-full max-w-[176px] max-h-[176px] aspect-square"
+          className="w-[176px] h-[176px]"
           src={`/team/${image}.png`}
           alt={image}
           width={176}

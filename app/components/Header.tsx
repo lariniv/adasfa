@@ -16,7 +16,7 @@ function Header() {
     setBurgerMenu(false);
   }
   return (
-    <header className="fixed my-4 p-2 z-[100] items-center justify-between max-w-7xl w-11/12 sm:w-full flex mt-[3.5rem] rounded-lg bg-white/20 backdrop-blur-lg">
+    <header className="fixed my-4 p-2 z-[100] items-center justify-between max-w-7xl w-11/12 md:w-full flex mt-[3.5rem] rounded-lg bg-white/20 backdrop-blur-lg">
       <Link
         href={"/"}
         onClick={() => setBurgerMenu(false)}
