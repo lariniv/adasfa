@@ -42,7 +42,7 @@ export default function ForVendorsSection() {
                   }
                   className="flex w-fit text-center border-2 rounded-md font-bold items-center justify-center px-2 py-5 border-primary max-sm:text-xl"
                 >
-                  Become verified Ai Vendor!
+                  Become verified AI Vendor!
                 </Link>
               </div>
             </div>
