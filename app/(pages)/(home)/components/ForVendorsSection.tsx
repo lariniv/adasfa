@@ -38,7 +38,7 @@ export default function ForVendorsSection() {
                 <Link
                   target="_blank"
                   href={
-                    "https://ien3r4fhpkk.typeform.com/to/tzSoVio1?typeform-source=www.linkedin.com"
+                    "https://ien3r4fhpkk.typeform.com/to/tzSoVio1"
                   }
                   className="flex w-fit text-center border-2 rounded-md font-bold items-center justify-center px-2 py-5 border-primary max-sm:text-xl"
                 >
