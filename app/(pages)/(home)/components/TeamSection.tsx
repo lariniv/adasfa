@@ -37,7 +37,7 @@ export default function TeamSection() {
           image="Dabrowski"
           title="Chief Operating Officer"
           name="Maciej Dąbrowski"
-          description={`Prior to joining ffVC, Maciej worked at Bain & Company for 2 years on Due Diligence projects for the biggest Private Equity funds in the US. He advised on projects focused on Ecommerce, enterprise software and gaming sectors. At JLL, he advised Fortune 500 companies on their real estate strategy within Europe. He helped them in seamless transition of their real estate footprint from long-term leases to solutions based on flexible workspaces. Maciej graduated from Warsaw School of Economics and studied at Management Center Innsbruck in Austria.`}
+          description={`Maciej is a strategic advisor and technology investor. At Bain & Company, he advised large US funds on investments in pre-IPO technology companies. He served as an investment manager at ffVC, one of the oldest venture capital funds in New York, focusing on startups utilising artificial intelligence in their products. Maciej holds a master's degree from the Warsaw School of Economics, where he lectured on startup valuations. He also studied at MCI in Innsbruck, Austria.`}
         />
 
         <Card
@@ -50,7 +50,7 @@ export default function TeamSection() {
           image="Zawistowski"
           title="Chief Executive Officer"
           name="Mateusz Zawistowski, PhD"
-          description={`Mateusz has over 9 years of experience in M&A, commercial, financial and banking law. He spent last 8 years at White&Case and previously worked for a “club of nine” British law firm and one of the biggest Polish law firms. Mateusz successfully advised on numerous transactions in Europe of over $15bn value, in particular in regulated sectors: telecoms, energy and financial services. Prior to joining ffVC, he has also been involved in numerous early stage tech projects, both related to incubating start-ups, creating JV’s and launching new business lines.`}
+          description={`Mateusz is an experienced advisor to technology and energy companies, lawyer, investor with over 10 years of experience. He was a Head of Fintech at ffVC, one of the oldest venture capital funds in New York. He invested in and managed Wolf 3D, one of Poland's largest 3D printing companies. Mateusz teaches AI in business at Kozminski University (ALK) and Politecnico di Milano. He holds a PhD in law and is a graduate of Cambridge University and UW. Mateusz has been a long-time advisor to the president of the WSE and chairman of the supervisory board of the Armenian Securities Exchange.`}
         />
       </div>
     </section>
