@@ -71,6 +71,22 @@ span {
   .footer-item b {
     @apply text-black font-bold;
   }
+
+  .dashboard-table {
+    @apply grid grid-cols-[48px_repeat(6,1fr)] border;
+
+    .table-heading {
+      @apply font-bold border-l pl-2 w-full relative h-full border-b py-4 cursor-pointer;
+    }
+
+    img {
+      @apply absolute right-2 top-1/2 -translate-y-1/2;
+    }
+
+    .table-content {
+      @apply text-nowrap px-2 text-ellipsis py-4 border-l;
+    }
+  }
 }
 
 #checkbox {
