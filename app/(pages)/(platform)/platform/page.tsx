@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Filter from "./components/Filter";
 import VendorRow from "./components/VendorRow";
 import VendorHeading from "./components/VendorHeading";
@@ -7,6 +6,7 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const [currentFilter, setCurrentFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState("vendors");
 
   const handleFilterClick = (filter: string) => {
     if (filter === currentFilter) {
@@ -19,15 +19,41 @@ export default function LoginPage() {
   return (
     <div className="w-full h-full bg-white">
       <div className="w-full flex gap-0 pt-4 px-8 text-text font-medium border-b">
-        <div className="py-4 px-8 rounded-t-lg bg-secondary cursor-pointer">
+        <div
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
+            currentPage === "vendors" ? "bg-secondary" : "bg-white"
+          }`}
+          onClick={() => setCurrentPage("vendors")}
+        >
           Vendors
         </div>
-        <div className="py-4 px-8 rounded-t-lg cursor-pointer">Use Cases</div>
-        <div className="py-4 px-8 rounded-t-lg cursor-pointer">Industries</div>
-        <div className="py-4 px-8 rounded-t-lg cursor-pointer">Categories</div>
+        <div
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
+            currentPage === "useCases" ? "bg-secondary" : "bg-white"
+          }`}
+          onClick={() => setCurrentPage("useCases")}
+        >
+          Use Cases
+        </div>
+        <div
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
+            currentPage === "industries" ? "bg-secondary" : "bg-white"
+          }`}
+          onClick={() => setCurrentPage("industries")}
+        >
+          Industries
+        </div>
+        <div
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
+            currentPage === "categories" ? "bg-secondary" : "bg-white"
+          }`}
+          onClick={() => setCurrentPage("categories")}
+        >
+          Categories
+        </div>
       </div>
       <div className="flex gap-7 pt-3">
-        <div className="w-1/6 pl-8 flex flex-col gap-5">
+        <div className="w-1/6 pl-8 flex flex-col gap-5 min-w-[300px]">
           <div className="font-bold text-xl">Filters</div>
           <div className="flex flex-col gap-8">
             <Filter
@@ -53,7 +79,7 @@ export default function LoginPage() {
           </div>
         </div>
         <div className="w-5/6 h-full">
-          <div className="text-text">1-20 of 20.000 results</div>
+          <div className="text-text pb-5">1-20 of 20.000 results</div>
           <div className="dashboard-table">
             <div className="table-heading" />
             <VendorHeading
