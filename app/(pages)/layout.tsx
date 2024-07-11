@@ -1,13 +1,14 @@
-import { Inter } from "next/font/google";
-import "@/app/globals.css";
-import { Metadata } from "next";
+import { Inter } from 'next/font/google';
+import '@/app/globals.css';
+import { Metadata } from 'next';
+import StoreProvider from './StoreProvider';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Zenith AI",
+  title: 'Zenith AI',
   description:
-    "Zenith AI is a platform that provides AI solutions for businesses.",
+    'Zenith AI is a platform that provides AI solutions for businesses.',
 };
 
 export default function RootLayout({
@@ -16,8 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="lg:overflow-auto">{children}</body>
-    </html>
+    <StoreProvider>
+      <html lang="en" className={inter.className}>
+        <body className="lg:overflow-auto">{children}</body>
+      </html>
+    </StoreProvider>
   );
 }
