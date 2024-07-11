@@ -87,6 +87,22 @@ span {
       @apply text-nowrap px-2 text-ellipsis py-4 border-l;
     }
   }
+
+  .login-error {
+    @apply text-red-600 font-medium text-sm;
+  }
+
+  .login-input {
+    @apply outline-none p-1 border rounded text-text focus:border-accent transition-colors duration-300;
+  }
+
+  .login-wrapper {
+    @apply flex flex-col gap-2;
+  }
+
+  .login-label {
+    @apply font-medium text-text;
+  }
 }
 
 #checkbox {

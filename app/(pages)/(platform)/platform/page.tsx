@@ -1,128 +1,121 @@
-"use client";
-import Filter from "./components/Filter";
-import VendorRow from "./components/VendorRow";
-import VendorHeading from "./components/VendorHeading";
-import { useState } from "react";
+'use client';
+import Filter from './components/Filter';
+import { useEffect, useRef, useState } from 'react';
+import VendorsTable from './components/VendorsTable';
+import { useAppSelector, useAppStore } from '@/app/store/hooks';
+import Image from 'next/image';
+import {
+  getAllHints,
+  sortVendorsByFIlter,
+} from '@/app/store/vendors/vendor-thunks';
+import { VendorType } from '@/app/store/vendors/vendor-slice';
 
 export default function LoginPage() {
-  const [currentFilter, setCurrentFilter] = useState("");
-  const [currentPage, setCurrentPage] = useState("vendors");
+  const [currentPage, setCurrentPage] = useState<keyof VendorType>('name');
+  const store = useAppStore();
 
-  const handleFilterClick = (filter: string) => {
-    if (filter === currentFilter) {
-      setCurrentFilter("");
-    } else {
-      setCurrentFilter(filter);
-    }
-  };
+  useEffect(() => {
+    store.dispatch(getAllHints());
+  }, []);
+
+  useEffect(() => {
+    store.dispatch(sortVendorsByFIlter({ field: currentPage }));
+  }, [currentPage]);
+
+  const { locations, useCases, industries, categories } = useAppSelector(
+    (state) => state.vendor.hints
+  );
 
   return (
     <div className="w-full h-full bg-white">
       <div className="w-full flex gap-0 pt-4 px-8 text-text font-medium border-b">
         <div
-          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
-            currentPage === "vendors" ? "bg-secondary" : "bg-white"
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors flex gap-2 items-center ${
+            currentPage === 'name' ? 'bg-secondary' : 'bg-white'
           }`}
-          onClick={() => setCurrentPage("vendors")}
+          onClick={() => setCurrentPage('name')}
         >
-          Vendors
+          <Image
+            src={'/briefcase.svg'}
+            width={24}
+            height={24}
+            alt="briefcase"
+          />
+          <span>Vendors</span>
         </div>
         <div
-          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
-            currentPage === "useCases" ? "bg-secondary" : "bg-white"
+          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 flex items-center gap-2 transition-colors ${
+            currentPage === 'useCase' ? 'bg-secondary' : 'bg-white'
           }`}
-          onClick={() => setCurrentPage("useCases")}
+          onClick={() => setCurrentPage('useCase')}
         >
+          <Image src={'/bookmark.svg'} width={24} height={24} alt="bookmark" />
           Use Cases
         </div>
         <div
-          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
-            currentPage === "industries" ? "bg-secondary" : "bg-white"
+          className={`py-4 px-8 rounded-t-lg  flex items-center gap-2 cursor-pointer duration-300 transition-colors ${
+            currentPage === 'industry' ? 'bg-secondary' : 'bg-white'
           }`}
-          onClick={() => setCurrentPage("industries")}
+          onClick={() => setCurrentPage('industry')}
         >
+          <Image src={'/claw.svg'} width={24} height={24} alt="filter-claw" />
           Industries
         </div>
         <div
-          className={`py-4 px-8 rounded-t-lg cursor-pointer duration-300 transition-colors ${
-            currentPage === "categories" ? "bg-secondary" : "bg-white"
+          className={`py-4 px-8 flex items-center gap-2 rounded-t-lg cursor-pointer duration-300 transition-colors ${
+            currentPage === 'category' ? 'bg-secondary' : 'bg-white'
           }`}
-          onClick={() => setCurrentPage("categories")}
+          onClick={() => setCurrentPage('category')}
         >
+          <Image
+            src={'/corporate.svg'}
+            width={24}
+            height={24}
+            alt="briefcase"
+          />
           Categories
         </div>
       </div>
       <div className="flex gap-7 pt-3">
-        <div className="w-1/6 pl-8 flex flex-col gap-5 min-w-[300px]">
+        <div className="w-1/6 pl-8 flex flex-col gap-5 min-w-[360px]">
           <div className="font-bold text-xl">Filters</div>
           <div className="flex flex-col gap-8">
             <Filter
               label="Overview"
               icon="filter-search"
-              inputs={["vendor name", "location", "keyword"]}
+              inputs={[
+                {
+                  field: 'name',
+                  label: 'Vendor Name',
+                },
+                { field: 'location', label: 'Location', hints: locations },
+                { field: 'description', label: 'Keyword' },
+              ]}
             />
             <Filter
               label="Use Cases"
               icon="filter-bookmark"
-              inputs={["use case"]}
+              inputs={[
+                { field: 'useCase', label: 'Use Cases', hints: useCases },
+              ]}
             />
             <Filter
               label="Industries"
               icon="filter-claw"
-              inputs={["Industry"]}
+              inputs={[
+                { field: 'industry', label: 'Industries', hints: industries },
+              ]}
             />
             <Filter
               label="Categories"
               icon="filter-corporate"
-              inputs={["category"]}
+              inputs={[
+                { field: 'category', label: 'Category', hints: categories },
+              ]}
             />
           </div>
         </div>
-        <div className="w-5/6 h-full">
-          <div className="text-text pb-5">1-20 of 20.000 results</div>
-          <div className="dashboard-table">
-            <div className="table-heading" />
-            <VendorHeading
-              title="Vendor Name"
-              isSelected={currentFilter === "vendorName"}
-              onClick={() => handleFilterClick("vendorName")}
-            />
-            <VendorHeading
-              title="Location"
-              isSelected={currentFilter === "location"}
-              onClick={() => handleFilterClick("location")}
-            />
-            <VendorHeading
-              title="Founded Date"
-              isSelected={currentFilter === "foundedDate"}
-              onClick={() => handleFilterClick("foundedDate")}
-            />
-            <VendorHeading
-              title="Industry"
-              isSelected={currentFilter === "industry"}
-              onClick={() => handleFilterClick("industry")}
-            />
-            <VendorHeading
-              title="Use Case"
-              isSelected={currentFilter === "useCase"}
-              onClick={() => handleFilterClick("useCase")}
-            />
-            <VendorHeading
-              title="Headquarters Location"
-              isSelected={currentFilter === "hqLocation"}
-              onClick={() => handleFilterClick("hqLocation")}
-            />
-
-            <VendorRow
-              name="Vendor Name"
-              location="Location"
-              foundedDate="Founded Date"
-              industry="Industry"
-              useCase="Use Case"
-              hqLocation="Headquarters Location"
-            />
-          </div>
-        </div>
+        <VendorsTable />
       </div>
     </div>
   );

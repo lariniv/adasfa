@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function VendorHeading({
   title,
@@ -13,12 +13,12 @@ export default function VendorHeading({
     <div className="table-heading" onClick={onClick}>
       <span>{title}</span>
       <Image
-        src={"chevron-down.svg"}
+        src={'chevron-down.svg'}
         width={16}
         height={16}
         alt="chevron"
         className={`duration-300 transition-transform ${
-          isSelected ? "rotate-180" : ""
+          isSelected ? 'rotate-180' : ''
         }`}
       />
     </div>

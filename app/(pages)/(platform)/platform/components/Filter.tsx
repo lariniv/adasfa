@@ -1,7 +1,7 @@
-import capitalizeString from "@/app/helpers/capitalize-string";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import FilterInput from "./FilterInput";
 export default function Filter({
   icon,
   label,
@@ -9,7 +9,17 @@ export default function Filter({
 }: {
   icon: string;
   label: string;
-  inputs: string[];
+  inputs: {
+    field:
+      | "location"
+      | "useCase"
+      | "name"
+      | "industry"
+      | "category"
+      | "description";
+    label: string;
+    hints?: string[];
+  }[];
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -39,38 +49,17 @@ export default function Filter({
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ type: "spring", damping: 20 }}
-              className="overflow-hidden bg-secondary"
+              className="bg-secondary"
             >
               <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
-                {inputs.map((name) => {
-                  let title: string;
-                  if (name.split(" ").length > 1)
-                    title = name
-                      .split(" ")
-                      .map((word) => capitalizeString(word))
-                      .join(" ");
-                  else title = capitalizeString(name);
+                {inputs.map(({ field, label, hints }) => {
                   return (
-                    <div key={name} className="flex flex-col gap-2 w-full">
-                      <label htmlFor={name} className="text-xs font-bold">
-                        {title}
-                      </label>
-                      <div className="w-full h-full relative">
-                        <input
-                          type="text"
-                          id={name}
-                          className="outline-none p-2 placeholder:text-xs border-primary w-full border rounded"
-                          placeholder="Search Zenith AI"
-                        />
-                        <Image
-                          src={"search.svg"}
-                          width={24}
-                          height={24}
-                          alt="search"
-                          className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
-                        />
-                      </div>
-                    </div>
+                    <FilterInput
+                      key={field}
+                      field={field}
+                      label={label}
+                      hints={hints}
+                    />
                   );
                 })}
               </div>
