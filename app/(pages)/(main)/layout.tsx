@@ -1,7 +1,7 @@
-import "@/app/globals.css";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
-import Link from "next/link";
+import '@/app/globals.css';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
+import Link from 'next/link';
 
 export default function RootLayout({
   children,
@@ -12,7 +12,7 @@ export default function RootLayout({
     <main className="flex flex-col items-center">
       <Link
         target="_blank"
-        href={"https://zenithai.substack.com/"}
+        href={'https://zenithai.substack.com/'}
         className="my-2 w-full z-50 bg-black/80 flex items-center justify-center h-10 hover:opacity-70 duration-300"
       >
         <p className="bg-clip-text font-semibold text-white/40 bg-zenith-gradient">
@@ -21,7 +21,6 @@ export default function RootLayout({
       </Link>
       <Header />
       {children}
-      <Footer />
     </main>
   );
 }
