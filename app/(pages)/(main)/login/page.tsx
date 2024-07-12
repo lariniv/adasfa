@@ -14,7 +14,7 @@ export default function LoginPage() {
     <main className="w-full min-h-screen h-full pt-32 flex justify-center">
       <form
         action={formAction}
-        className="bg-white p-4 h-fit rounded-md border border-accent w-fit min-w-[400px] flex flex-col gap-4"
+        className="bg-white p-4 h-fit rounded-md border border-accent w-full max-w-[400px] flex flex-col gap-4"
       >
         <div className="login-wrapper">
           <label htmlFor="email" className="login-label">
