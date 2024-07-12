@@ -1,8 +1,6 @@
-"use client";
-import "@/app/globals.css";
-import HeaderDashboard from "@/app/components/HeaderDashboard";
-import { Provider } from "react-redux";
-import { store } from "@/app/store/store";
+'use client';
+import '@/app/globals.css';
+import HeaderDashboard from '@/app/components/HeaderDashboard';
 
 export default function RootLayout({
   children,
@@ -10,11 +8,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Provider store={store}>
-      <main className="flex flex-col items-center">
-        <HeaderDashboard />
-        {children}
-      </main>
-    </Provider>
+    <main className="flex flex-col items-center">
+      <HeaderDashboard />
+      {children}
+    </main>
   );
 }

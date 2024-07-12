@@ -73,7 +73,7 @@ span {
   }
 
   .dashboard-table {
-    @apply grid grid-cols-[48px_repeat(6,1fr)] border;
+    @apply grid grid-cols-[48px_repeat(6,1fr)] border w-full;
 
     .table-heading {
       @apply font-bold border-l pl-2 w-full relative h-full border-b py-4 cursor-pointer;

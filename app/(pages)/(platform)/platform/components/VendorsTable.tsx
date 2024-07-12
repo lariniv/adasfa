@@ -128,8 +128,8 @@ export default function VendorsTable() {
   };
 
   return (
-    <div className="w-5/6 h-full">
-      <div className="flex pb-5 justify-between items-center">
+    <div className="w-full 2xl:w-5/6 h-full max-2xl:px-8 max-sm:px-2 overflow-x-auto">
+      <div className="flex pb-5 justify-between items-center min-w-[1000px] w-full">
         <div className="text-text ">
           {vendors.length !== 0 ? indexOfFirstVendor + 1 : 0}-
           {Math.min(indexOfLastVendor, vendors.length)} of {vendors.length}{' '}
@@ -139,7 +139,7 @@ export default function VendorsTable() {
           {renderPaginationButtons()}
         </div>
       </div>
-      <div className="dashboard-table">
+      <div className="dashboard-table min-w-[1000px]">
         <div className="table-heading" />
         <VendorHeading
           title="Vendor Name"
