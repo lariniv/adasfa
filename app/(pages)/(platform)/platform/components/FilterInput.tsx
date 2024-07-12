@@ -1,17 +1,17 @@
-import CheckBox from "@/app/components/CheckBox";
-import useOutsideClick from "@/app/hooks/use-outside-click";
-import { useAppDispatch } from "@/app/store/hooks";
+import CheckBox from '@/app/components/CheckBox';
+import useOutsideClick from '@/app/hooks/use-outside-click';
+import { useAppDispatch } from '@/app/store/hooks';
 import {
   getAllVendors,
   searchVendors,
   searchVendorsByMultipleOptions,
-} from "@/app/store/vendors/vendor-thunks";
+} from '@/app/store/vendors/vendor-thunks';
 import {
   capitalizeString,
   transformUnderscoreString,
-} from "@/app/utils/string-helpers";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+} from '@/app/utils/string-helpers';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 export default function FilterInput({
   label,
   field,
@@ -19,26 +19,26 @@ export default function FilterInput({
 }: {
   label: string;
   field:
-    | "location"
-    | "useCase"
-    | "name"
-    | "industry"
-    | "category"
-    | "description";
+    | 'location'
+    | 'useCase'
+    | 'name'
+    | 'industry'
+    | 'category'
+    | 'description';
   hints?: string[];
 }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [showHints, setShowHints] = useState(false);
   const [activeHints, setActiveHints] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (inputValue.length > 1) {
-      if (field === "useCase" || field === "category")
+      if (field === 'useCase' || field === 'category')
         dispatch(
           searchVendors({
             field,
-            search: inputValue.trim().replace(/\s+/g, "_"),
+            search: inputValue.trim().replace(/\s+/g, '_'),
           })
         );
       else dispatch(searchVendors({ field, search: inputValue.trim() }));
@@ -74,9 +74,9 @@ export default function FilterInput({
           >
             {hints.map((hint) => {
               let formattedHint: string;
-              if (field === "category" || field === "useCase")
+              if (field === 'category' || field === 'useCase')
                 formattedHint = transformUnderscoreString(hint);
-              else if (field === "industry")
+              else if (field === 'industry')
                 formattedHint = capitalizeString(hint);
               else formattedHint = hint;
               return (
@@ -100,13 +100,52 @@ export default function FilterInput({
           </div>
         )}
         <Image
-          src={"search.svg"}
+          src={'search.svg'}
           width={24}
           height={24}
           alt="search"
           className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
         />
       </div>
+      {activeHints.length > 0 && (
+        <div className="pt-2 flex flex-col gap-2">
+          {activeHints.map((hint) => {
+            let formattedHint: string;
+            if (field === 'category' || field === 'useCase')
+              formattedHint = transformUnderscoreString(hint);
+            else if (field === 'industry')
+              formattedHint = capitalizeString(hint);
+            else formattedHint = hint;
+            return (
+              <div
+                key={hint}
+                onClick={() => {
+                  setActiveHints((prev) =>
+                    prev.filter((item) => item !== hint)
+                  );
+                  setInputValue('');
+                }}
+                className="bg-accent/20 text-text w-fit px-3 py-1 text-xs rounded-lg flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {formattedHint}
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 3L3 9M3 3L9 9"
+                    stroke="black"
+                    stroke-width="1"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
