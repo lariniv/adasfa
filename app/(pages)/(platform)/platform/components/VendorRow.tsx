@@ -1,28 +1,18 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   capitalizeString,
   transformUnderscoreString,
-} from "@/app/utils/string-helpers";
-import { ISOStringToLL } from "@/app/utils/date-helpers";
-import CheckBox from "@/app/components/CheckBox";
+} from '@/app/utils/string-helpers';
+import { ISOStringToLL } from '@/app/utils/date-helpers';
+import CheckBox from '@/app/components/CheckBox';
+import Link from 'next/link';
+import { VendorType } from '@/app/store/vendors/vendor-slice';
 
-type VendorRow = {
-  name: string;
-  location: string;
-  foundedDate: string;
-  industries: string[];
-  useCases: string[];
-  categories: string[];
+type VendorList = {
+  list: { field: keyof VendorType; value: string | string[] }[];
 };
 
-export default function VendorRow({
-  name,
-  location,
-  foundedDate,
-  industries,
-  useCases,
-  categories,
-}: VendorRow) {
+export default function VendorRow({ list }: VendorList) {
   const [isChecked, setIsChecked] = useState(false);
   return (
     <>
@@ -34,22 +24,49 @@ export default function VendorRow({
           />
         </form>
       </div>
-      <div className="table-content">{name}</div>
-      <div className="table-content">{location}</div>
-      <div className="table-content">{ISOStringToLL(foundedDate)}</div>
-      <div className="table-content text-[#183444] font-medium">
-        {industries.map((industry) => capitalizeString(industry)).join(", ")}
-      </div>
-      <div className="table-content text-[#183444] font-medium">
-        {useCases
-          .map((useCase) => transformUnderscoreString(useCase))
-          .join(", ")}
-      </div>
-      <div className="table-content text-[#183444] font-medium">
-        {categories
-          .map((category) => transformUnderscoreString(category))
-          .join(", ")}
-      </div>
+      {list.map((item, index) => {
+        if (Array.isArray(item.value)) {
+          let name: string = '';
+
+          if (item.field === 'industry') {
+            name = item.value
+              .map((industry) => capitalizeString(industry))
+              .join(', ');
+          } else
+            name = item.value
+              .map((value) => transformUnderscoreString(value))
+              .join(', ');
+
+          return (
+            <div key={index} className="table-content">
+              {name}
+            </div>
+          );
+        } else {
+          let name: string = item.value;
+
+          if (item.field === 'foundedDate') name = ISOStringToLL(item.value);
+
+          if (item.field === 'websiteUrl') {
+            return (
+              <Link
+                key={index}
+                className="table-content"
+                href={name}
+                target="_blank"
+              >
+                {name}
+              </Link>
+            );
+          }
+
+          return (
+            <div key={index} className="table-content">
+              {name}
+            </div>
+          );
+        }
+      })}
     </>
   );
 }

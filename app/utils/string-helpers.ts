@@ -4,7 +4,14 @@ export function capitalizeString(str: string) {
 
 export function transformUnderscoreString(useCase: string) {
   return useCase
-    .split("_")
+    .split('_')
     .map((word) => capitalizeString(word))
-    .join(" ");
+    .join(' ');
+}
+
+export function splitByUpperCaseAndCapitalize(str: string) {
+  return str
+    .split(/(?=[A-Z])/)
+    .map((word) => capitalizeString(word))
+    .join(' ');
 }

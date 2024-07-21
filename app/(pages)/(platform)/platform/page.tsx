@@ -105,7 +105,7 @@ export default function LoginPage() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              className="w-1/6 filters pl-8 flex flex-col gap-5 min-w-[360px] max-2xl:absolute max-2xl:bg-white z-50 max-2xl:p-2 max-2xl:h-full max-2xl:rounded-r-md max-2xl:pl-4"
+              className="w-1/6 filters pl-8 flex flex-col gap-5 min-w-[360px] max-2xl:absolute max-2xl:bg-white z-[300] max-2xl:p-2 max-2xl:h-full max-2xl:rounded-r-md max-2xl:pl-4"
             >
               <div className="font-bold text-xl">Filters</div>
               <div className="flex flex-col gap-8">
@@ -163,7 +163,7 @@ export default function LoginPage() {
           alt="show-filters"
           className={`absolute filters ${
             isOpen ? '-rotate-90' : 'rotate-90'
-          } top-1/2 -translate-y-1/2 w-7 h-7 cursor-pointer 2xl:hidden z-[70] transition-transform duration-300`}
+          } top-1/2 -translate-y-1/2 w-7 h-7 cursor-pointer 2xl:hidden z-[310] transition-transform duration-300`}
           width={16}
           height={16}
           onClick={() => setIsOpen(!isOpen)}

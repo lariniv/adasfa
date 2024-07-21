@@ -73,18 +73,18 @@ span {
   }
 
   .dashboard-table {
-    @apply grid grid-cols-[48px_repeat(6,1fr)] border w-full;
+    @apply grid border w-full;
 
     .table-heading {
-      @apply font-bold border-l pl-2 w-full relative h-full border-b py-4 cursor-pointer;
+      @apply font-bold pl-2 w-full relative h-full border-b py-4 bg-white select-none;
     }
 
-    img {
-      @apply absolute right-2 top-1/2 -translate-y-1/2;
+    .img-wrapper {
+      @apply absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer p-1 rounded-full border;
     }
 
     .table-content {
-      @apply text-nowrap px-2 text-ellipsis py-4 border-l;
+      @apply whitespace-nowrap overflow-hidden px-2 text-ellipsis py-4 border-l max-w-[400px] w-full text-[#183444] font-medium;
     }
   }
 
