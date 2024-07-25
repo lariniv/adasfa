@@ -82,7 +82,6 @@ export const sortVendorsByFIlter = createAsyncThunk(
 
       if (state.vendor.currentSort?.field === field)
         order = state.vendor.currentSort.order === 'asc' ? 'desc' : 'asc';
-      console.log(order);
       const response = await api.post(`/vendors/sort`, {
         vendorsFilter: state.vendor.currentFilter,
         field,
