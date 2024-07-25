@@ -1,13 +1,14 @@
 import CheckBox from '@/app/components/CheckBox';
 import useOutsideClick from '@/app/hooks/use-outside-click';
-import { useAppDispatch } from '@/app/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
+import { setCurrentFilter, VendorType } from '@/app/store/vendors/vendor-slice';
 import {
   getAllVendors,
-  searchVendors,
   searchVendorsByMultipleOptions,
 } from '@/app/store/vendors/vendor-thunks';
 import {
   capitalizeString,
+  transformToUnderscoreString,
   transformUnderscoreString,
 } from '@/app/utils/string-helpers';
 import Image from 'next/image';
@@ -18,38 +19,30 @@ export default function FilterInput({
   hints,
 }: {
   label: string;
-  field:
-    | 'location'
-    | 'useCase'
-    | 'name'
-    | 'industry'
-    | 'category'
-    | 'description';
+  field: keyof VendorType;
   hints?: string[];
 }) {
   const [inputValue, setInputValue] = useState('');
   const [showHints, setShowHints] = useState(false);
   const [activeHints, setActiveHints] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const { filter: currentField, value } = useAppSelector(
+    (state) => state.vendor.currentFilter
+  );
 
   useEffect(() => {
-    if (inputValue.length > 1) {
-      if (field === 'useCase' || field === 'category')
-        dispatch(
-          searchVendors({
-            field,
-            search: inputValue.trim().replace(/\s+/g, '_'),
-          })
-        );
-      else dispatch(searchVendors({ field, search: inputValue.trim() }));
-    } else dispatch(getAllVendors());
-  }, [inputValue, dispatch, field]);
+    if (currentField === field && value)
+      if (Array.isArray(value)) setActiveHints(value);
+      else setActiveHints([value]);
+  }, [currentField, field, value]);
 
   useEffect(() => {
-    console.log(field);
     if (activeHints.length > 0)
       dispatch(searchVendorsByMultipleOptions({ options: activeHints, field }));
-    else dispatch(getAllVendors());
+    else {
+      dispatch(setCurrentFilter({ filter: null, value: null }));
+      dispatch(getAllVendors());
+    }
   }, [activeHints, field, dispatch]);
 
   useOutsideClick(`.${field}`, () => setShowHints(false));
@@ -72,31 +65,108 @@ export default function FilterInput({
           <div
             className={`absolute flex flex-col gap-2 top-full left-0 bg-white w-full z-50 max-h-[200px] h-auto overflow-y-auto border p-3 rounded-b-lg border-primary border-t-0 ${field}`}
           >
-            {hints.map((hint) => {
-              let formattedHint: string;
-              if (field === 'category' || field === 'useCase')
-                formattedHint = transformUnderscoreString(hint);
-              else if (field === 'industry')
-                formattedHint = capitalizeString(hint);
-              else formattedHint = hint;
-              return (
-                <div key={hint} className="flex items-center gap-2 text-xs">
-                  <CheckBox
-                    isChecked={activeHints.includes(hint)}
-                    onChange={() => {
-                      if (activeHints.includes(hint))
-                        setActiveHints((prev) =>
-                          prev.filter((item) => item !== hint)
-                        );
-                      else if (!activeHints.includes(hint))
-                        setActiveHints((prev) => [...prev, hint]);
-                    }}
-                    className={field}
-                  />
-                  {formattedHint}
-                </div>
-              );
-            })}
+            {inputValue.length >= 3 &&
+              field !== 'useCase' &&
+              field !== 'category' &&
+              hints.filter((hint) =>
+                hint.toLowerCase().includes(inputValue.toLowerCase())
+              ).length !== 0 &&
+              hints
+                .filter((hint) =>
+                  hint.toLowerCase().includes(inputValue.toLowerCase())
+                )
+                .map((hint) => {
+                  let formattedHint: string;
+                  if (field === 'industry')
+                    formattedHint = capitalizeString(hint);
+                  else formattedHint = hint;
+                  return (
+                    <div key={hint} className="flex items-center gap-2 text-xs">
+                      <CheckBox
+                        isChecked={activeHints.includes(hint)}
+                        onChange={() => {
+                          if (activeHints.includes(hint))
+                            setActiveHints((prev) =>
+                              prev.filter((item) => item !== hint)
+                            );
+                          else if (!activeHints.includes(hint))
+                            setActiveHints((prev) => [...prev, hint]);
+                        }}
+                        className={field}
+                      />
+                      {formattedHint}
+                    </div>
+                  );
+                })}
+            {(inputValue.length >= 3 && field === 'useCase') ||
+              (field === 'category' &&
+                hints.filter((hint) =>
+                  hint
+                    .toLowerCase()
+                    .includes(
+                      transformToUnderscoreString(inputValue.toLowerCase())
+                    )
+                ).length !== 0 &&
+                hints
+                  .filter((hint) =>
+                    hint
+                      .toLowerCase()
+                      .includes(
+                        transformToUnderscoreString(inputValue.toLowerCase())
+                      )
+                  )
+                  .map((hint) => {
+                    let formattedHint: string;
+                    if (field === 'category' || field === 'useCase')
+                      formattedHint = transformUnderscoreString(hint);
+                    else formattedHint = hint;
+                    return (
+                      <div
+                        key={hint}
+                        className="flex items-center gap-2 text-xs"
+                      >
+                        <CheckBox
+                          isChecked={activeHints.includes(hint)}
+                          onChange={() => {
+                            if (activeHints.includes(hint))
+                              setActiveHints((prev) =>
+                                prev.filter((item) => item !== hint)
+                              );
+                            else if (!activeHints.includes(hint))
+                              setActiveHints((prev) => [...prev, hint]);
+                          }}
+                          className={field}
+                        />
+                        {formattedHint}
+                      </div>
+                    );
+                  }))}
+            {inputValue.length < 3 &&
+              hints.map((hint) => {
+                let formattedHint: string;
+                if (field === 'category' || field === 'useCase')
+                  formattedHint = transformUnderscoreString(hint);
+                else if (field === 'industry')
+                  formattedHint = capitalizeString(hint);
+                else formattedHint = hint;
+                return (
+                  <div key={hint} className="flex items-center gap-2 text-xs">
+                    <CheckBox
+                      isChecked={activeHints.includes(hint)}
+                      onChange={() => {
+                        if (activeHints.includes(hint))
+                          setActiveHints((prev) =>
+                            prev.filter((item) => item !== hint)
+                          );
+                        else if (!activeHints.includes(hint))
+                          setActiveHints((prev) => [...prev, hint]);
+                      }}
+                      className={field}
+                    />
+                    {formattedHint}
+                  </div>
+                );
+              })}
           </div>
         )}
         <Image

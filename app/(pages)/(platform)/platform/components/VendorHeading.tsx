@@ -1,95 +1,50 @@
-import { Draggable } from '@hello-pangea/dnd';
+import { ResizableHandle, ResizablePanel } from '@/components/ui/resizable';
 import Image from 'next/image';
-import React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 export default function VendorHeading({
   title,
   isSelected,
   col,
-  index,
-  setColWidth,
+  onDragStart,
+  onDragOver,
+  onDragEnd,
   onClick,
 }: {
   title: string;
   isSelected: boolean;
   col: string;
-  index: number;
-  setColWidth: (width: number) => void;
+  onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onClick: () => void;
 }) {
-  const resizerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const div = document.getElementById(col) as HTMLDivElement | null;
-    const resizer = resizerRef.current;
-
-    if (!div || !resizer) return;
-
-    let startX: number, startWidth: number;
-
-    const initResize = (e: MouseEvent) => {
-      console.log('initResize');
-      startX = e.clientX;
-      if (document.defaultView === null) return;
-
-      startWidth = parseInt(
-        document.defaultView.getComputedStyle(div).width,
-        10
-      );
-      document.documentElement.addEventListener('mousemove', resize);
-      document.documentElement.addEventListener('mouseup', stopResize);
-    };
-
-    const resize = (e: MouseEvent) => {
-      const width = startWidth + e.clientX - startX;
-      console.log('resize', width);
-      setColWidth(width);
-    };
-
-    const stopResize = () => {
-      document.documentElement.removeEventListener('mousemove', resize);
-      document.documentElement.removeEventListener('mouseup', stopResize);
-    };
-
-    resizer.addEventListener('mousedown', initResize);
-
-    return () => {
-      resizer.removeEventListener('mousedown', initResize);
-    };
-  }, []);
   return (
-    <div className="relative">
-      <Draggable key={col} draggableId={col} index={index}>
-        {(provided) => (
-          <div
-            className="table-heading w-fit"
-            ref={provided.innerRef}
-            id={col}
-            {...provided.dragHandleProps}
-            {...provided.draggableProps}
-          >
-            <span>{title}</span>
-            <div className="img-wrapper" onClick={onClick}>
-              <Image
-                src={'chevron-down.svg'}
-                width={16}
-                height={16}
-                alt="chevron"
-                className={`duration-300 transition-transform ${
-                  isSelected ? 'rotate-180' : ''
-                }`}
-              />
-            </div>
-          </div>
-        )}
-      </Draggable>
+    <ResizablePanel defaultSize={100 / 8}>
       <div
-        ref={resizerRef}
-        className="absolute flex items-center justify-center h-full w-[4px] top-0 -right-[2.5px] z-[200] group cursor-ew-resize"
+        className="relative cursor-move h-full flex p-4 font-semibold whitespace-nowrap"
+        draggable
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
+        onDragOver={onDragOver}
+        id={col}
       >
-        <div className="w-[1px] h-full bg-[#E5E7EB]"></div>
+        <span>{title}</span>
+        <div
+          className="absolute top-1/2 -translate-y-1/2 right-2 p-1 border rounded-full"
+          onClick={onClick}
+        >
+          <Image
+            src="/chevron-down.svg"
+            width={16}
+            height={16}
+            alt="chevron"
+            className={`duration-300 transition-transform ${
+              isSelected ? 'rotate-180' : ''
+            }`}
+          />
+        </div>
       </div>
-    </div>
+    </ResizablePanel>
   );
 }

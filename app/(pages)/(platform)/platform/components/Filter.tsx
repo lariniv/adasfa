@@ -42,30 +42,28 @@ export default function Filter({
             alt="chevron-down"
           />
         </div>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="bg-secondary"
-            >
-              <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
-                {inputs.map(({ field, label, hints }) => {
-                  return (
-                    <FilterInput
-                      key={field}
-                      field={field}
-                      label={label}
-                      hints={hints}
-                    />
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          variants={{
+            active: { opacity: 1, height: 'auto' },
+            inactive: { opacity: 0, height: 0 },
+          }}
+          animate={isOpen ? 'active' : 'inactive'}
+          transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+          className="bg-secondary"
+        >
+          <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
+            {inputs.map(({ field, label, hints }) => {
+              return (
+                <FilterInput
+                  key={field}
+                  field={field}
+                  label={label}
+                  hints={hints}
+                />
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </div>
   );
