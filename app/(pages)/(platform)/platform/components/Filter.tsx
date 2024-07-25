@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import FilterInput from "./FilterInput";
+import Image from 'next/image';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import FilterInput from './FilterInput';
 export default function Filter({
   icon,
   label,
@@ -11,12 +11,12 @@ export default function Filter({
   label: string;
   inputs: {
     field:
-      | "location"
-      | "useCase"
-      | "name"
-      | "industry"
-      | "category"
-      | "description";
+      | 'location'
+      | 'useCase'
+      | 'name'
+      | 'industry'
+      | 'category'
+      | 'description';
     label: string;
     hints?: string[];
   }[];
@@ -34,38 +34,36 @@ export default function Filter({
           <div>{label}</div>
           <Image
             className={`absolute right-2 top-1/2 transition-transform duration-300 -translate-y-1/2 ${
-              isOpen ? "rotate-180" : "rotate-0"
+              isOpen ? 'rotate-180' : 'rotate-0'
             }`}
-            src={"chevron-down.svg"}
+            src={'chevron-down.svg'}
             width={16}
             height={16}
             alt="chevron-down"
           />
         </div>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ type: "spring", damping: 20 }}
-              className="bg-secondary"
-            >
-              <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
-                {inputs.map(({ field, label, hints }) => {
-                  return (
-                    <FilterInput
-                      key={field}
-                      field={field}
-                      label={label}
-                      hints={hints}
-                    />
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          variants={{
+            active: { opacity: 1, height: 'auto' },
+            inactive: { opacity: 0, height: 0 },
+          }}
+          animate={isOpen ? 'active' : 'inactive'}
+          transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+          className="bg-secondary"
+        >
+          <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
+            {inputs.map(({ field, label, hints }) => {
+              return (
+                <FilterInput
+                  key={field}
+                  field={field}
+                  label={label}
+                  hints={hints}
+                />
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </div>
   );

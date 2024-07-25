@@ -24,6 +24,7 @@ const config = {
         primary: '#462078',
         secondary: '#F0E4FF',
         accent: '#9747FF',
+        border: '#E5E5E5',
         text: '#282828',
       },
     },

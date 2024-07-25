@@ -1,20 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
-import VendorHeading from './VendorHeading';
-import VendorRow from './VendorRow';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppSelector, useAppStore } from '@/app/store/hooks';
 import {
   getAllVendors,
   sortVendorsByFIlter,
 } from '@/app/store/vendors/vendor-thunks';
 import { VendorType } from '@/app/store/vendors/vendor-slice';
+import {
+  ResizableHandle,
+  ResizablePanelGroup,
+} from '@/components/ui/resizable';
+import VendorColumn from './VendorColumn';
+import React from 'react';
 
 export default function VendorsTable() {
   const store = useAppStore();
-  const initialized = useRef(false);
+  const [isFetched, setIsFetched] = useState(false);
 
-  if (!initialized.current) {
+  if (!isFetched) {
     store.dispatch(getAllVendors());
-    initialized.current = true;
+    setIsFetched(true);
   }
 
   const { vendors, state } = useAppSelector((state) => state.vendor);
@@ -34,6 +38,62 @@ export default function VendorsTable() {
     setCurrentPage(1);
   };
 
+  const indexOfLastVendor = currentPage * vendorsPerPage;
+  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
+  const currentVendors = useMemo(
+    () => vendors.slice(indexOfFirstVendor, indexOfLastVendor),
+    [vendors, indexOfFirstVendor, indexOfLastVendor]
+  );
+
+  const [cols, setCols] = useState<
+    Array<{ col: keyof VendorType; list: string[] | string[][] }>
+  >([
+    { col: 'name', list: ['names'] },
+    { col: 'location', list: ['locations'] },
+    { col: 'foundedDate', list: ['dates'] },
+    { col: 'industry', list: ['industries'] },
+    { col: 'useCase', list: ['useCases'] },
+    { col: 'category', list: ['categories'] },
+    { col: 'description', list: ['descriptions'] },
+    { col: 'websiteUrl', list: ['urls'] },
+  ]);
+
+  useEffect(() => {
+    const names = currentVendors.map((vendor) => vendor.name);
+    const locations = currentVendors.map((vendor) => vendor.location);
+    const dates = currentVendors.map((vendor) => vendor.foundedDate);
+    const industries = currentVendors.map((vendor) => vendor.industry);
+    const useCases = currentVendors.map((vendor) => vendor.useCase);
+    const categories = currentVendors.map((vendor) => vendor.category);
+    const descriptions = currentVendors.map((vendor) => vendor.description);
+    const urls = currentVendors.map((vendor) => vendor.websiteUrl);
+
+    setCols((prevCols) =>
+      prevCols.map((col) => {
+        switch (col.col) {
+          case 'name':
+            return { ...col, list: names };
+          case 'location':
+            return { ...col, list: locations };
+          case 'foundedDate':
+            return { ...col, list: dates };
+          case 'industry':
+            return { ...col, list: industries };
+          case 'useCase':
+            return { ...col, list: useCases };
+          case 'category':
+            return { ...col, list: categories };
+          case 'description':
+            return { ...col, list: descriptions };
+          case 'websiteUrl':
+            return { ...col, list: urls };
+          default:
+            return col;
+        }
+      })
+    );
+  }, [currentVendors]);
+
   useEffect(() => {
     currentFilter.field &&
       store.dispatch(
@@ -43,10 +103,6 @@ export default function VendorsTable() {
         })
       );
   }, [currentFilter]);
-
-  const indexOfLastVendor = currentPage * vendorsPerPage;
-  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
-  const currentVendors = vendors.slice(indexOfFirstVendor, indexOfLastVendor);
 
   const totalPages = Math.ceil(vendors.length / vendorsPerPage);
 
@@ -127,6 +183,31 @@ export default function VendorsTable() {
     );
   };
 
+  const [draggedColumn, setDraggedColumn] = useState<string | null>(null);
+
+  const handleDragStart = (columnId: string) => {
+    setDraggedColumn(columnId);
+  };
+
+  const handleDragOver = (
+    e: React.DragEvent<HTMLDivElement>,
+    columnId: keyof VendorType
+  ) => {
+    e.preventDefault();
+    if (draggedColumn && draggedColumn !== columnId) {
+      const draggedIndex = cols.findIndex(({ col }) => col === draggedColumn);
+      const targetIndex = cols.findIndex(({ col }) => col === columnId);
+      const newColumns = [...cols];
+      const [removed] = newColumns.splice(draggedIndex, 1);
+      newColumns.splice(targetIndex, 0, removed);
+      setCols(newColumns);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggedColumn(null);
+  };
+
   return (
     <div className="w-full 2xl:w-5/6 h-full max-2xl:px-8 max-sm:px-2 overflow-x-auto">
       <div className="flex pb-5 justify-between items-center min-w-[1000px] w-full">
@@ -139,73 +220,38 @@ export default function VendorsTable() {
           {renderPaginationButtons()}
         </div>
       </div>
-      <div className="dashboard-table min-w-[1000px]">
-        <div className="table-heading" />
-        <VendorHeading
-          title="Vendor Name"
-          isSelected={
-            currentFilter.field === 'name' && currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('name')}
-        />
-        <VendorHeading
-          title="Location"
-          isSelected={
-            currentFilter.field === 'location' && currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('location')}
-        />
-        <VendorHeading
-          title="Founded Date"
-          isSelected={
-            currentFilter.field === 'foundedDate' &&
-            currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('foundedDate')}
-        />
-        <VendorHeading
-          title="Industry"
-          isSelected={
-            currentFilter.field === 'industry' && currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('industry')}
-        />
-        <VendorHeading
-          title="Use Case"
-          isSelected={
-            currentFilter.field === 'useCase' && currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('useCase')}
-        />
-        <VendorHeading
-          title="Category"
-          isSelected={
-            currentFilter.field === 'category' && currentFilter.order !== 'desc'
-          }
-          onClick={() => handleFilterClick('category')}
-        />
-        {currentVendors &&
-          !state.isLoading &&
-          currentVendors.map((vendor) => (
-            <VendorRow
-              key={vendor._id}
-              name={vendor.name}
-              location={vendor.location}
-              foundedDate={vendor.foundedDate}
-              industries={vendor.industry}
-              useCases={vendor.useCase}
-              categories={vendor.category}
-            />
-          ))}
-      </div>
-      {!currentVendors.length && (
-        <div className="w-full flex items-center justify-center text-2xl font-semibold">
-          No vendors found.
-        </div>
+
+      {!state.isLoading && (
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="border min-w-[1400px]"
+        >
+          {cols.map(({ col, list }, index) => {
+            return (
+              <React.Fragment key={index}>
+                <VendorColumn
+                  list={list}
+                  col={col}
+                  isSelected={
+                    currentFilter.field === col &&
+                    currentFilter.order !== 'desc'
+                  }
+                  onDragEnd={handleDragEnd}
+                  onDragOver={(e: React.DragEvent<HTMLDivElement>) =>
+                    handleDragOver(e, col)
+                  }
+                  onDragStart={() => handleDragStart(col)}
+                  onClick={() => handleFilterClick(col)}
+                />
+                {index !== cols.length - 1 && <ResizableHandle />}
+              </React.Fragment>
+            );
+          })}
+        </ResizablePanelGroup>
       )}
       {state.isLoading && (
-        <div className="w-full flex items-center justify-center pt-16">
-          <div className="w-20 h-20 rounded-full border-4 border-text border-t-text/50 animate-spin" />
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary" />
         </div>
       )}
     </div>
