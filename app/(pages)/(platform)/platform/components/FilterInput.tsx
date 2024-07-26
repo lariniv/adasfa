@@ -38,6 +38,12 @@ export default function FilterInput({
   }, [currentField, field, value]);
 
   useEffect(() => {
+    if (currentField === 'name') {
+      setActiveHints([]);
+    }
+  }, [currentField, field]);
+
+  useEffect(() => {
     if (activeHints.length > 0)
       dispatch(searchVendorsByMultipleOptions({ options: activeHints, field }));
     else {
@@ -47,7 +53,7 @@ export default function FilterInput({
   }, [activeHints, field, dispatch]);
 
   useEffect(() => {
-    if (field === 'name') {
+    if (field === 'name' && inputValue.length >= 3) {
       dispatch(searchVendors({ search: inputValue, field }));
       dispatch(setCurrentFilter({ filter: field, value: inputValue }));
     }
