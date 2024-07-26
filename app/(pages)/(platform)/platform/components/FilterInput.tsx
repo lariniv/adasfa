@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { setCurrentFilter, VendorType } from '@/app/store/vendors/vendor-slice';
 import {
   getAllVendors,
+  searchVendors,
   searchVendorsByMultipleOptions,
 } from '@/app/store/vendors/vendor-thunks';
 import {
@@ -31,7 +32,7 @@ export default function FilterInput({
   );
 
   useEffect(() => {
-    if (currentField === field && value)
+    if (currentField === field && value && field !== 'name')
       if (Array.isArray(value)) setActiveHints(value);
       else setActiveHints([value]);
   }, [currentField, field, value]);
@@ -44,6 +45,13 @@ export default function FilterInput({
       dispatch(getAllVendors());
     }
   }, [activeHints, field, dispatch]);
+
+  useEffect(() => {
+    if (field === 'name') {
+      dispatch(searchVendors({ search: inputValue, field }));
+      dispatch(setCurrentFilter({ filter: field, value: inputValue }));
+    }
+  }, [inputValue, field, dispatch]);
 
   useOutsideClick(`.${field}`, () => setShowHints(false));
 
@@ -68,6 +76,7 @@ export default function FilterInput({
             {inputValue.length >= 3 &&
               field !== 'useCase' &&
               field !== 'category' &&
+              field !== 'name' &&
               hints.filter((hint) =>
                 hint.toLowerCase().includes(inputValue.toLowerCase())
               ).length !== 0 &&
@@ -98,7 +107,9 @@ export default function FilterInput({
                     </div>
                   );
                 })}
-            {(inputValue.length >= 3 && field === 'useCase') ||
+            {(inputValue.length >= 3 &&
+              field !== 'name' &&
+              field === 'useCase') ||
               (field === 'category' &&
                 hints.filter((hint) =>
                   hint
@@ -142,9 +153,10 @@ export default function FilterInput({
                     );
                   }))}
             {inputValue.length < 3 &&
+              field !== 'category' &&
               hints.map((hint) => {
                 let formattedHint: string;
-                if (field === 'category' || field === 'useCase')
+                if (field === 'useCase')
                   formattedHint = transformUnderscoreString(hint);
                 else if (field === 'industry')
                   formattedHint = capitalizeString(hint);
