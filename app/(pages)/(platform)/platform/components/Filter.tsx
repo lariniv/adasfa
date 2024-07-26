@@ -43,6 +43,7 @@ export default function Filter({
           />
         </div>
         <motion.div
+          initial={{ opacity: 0, height: 0 }}
           variants={{
             active: { opacity: 1, height: 'auto' },
             inactive: { opacity: 0, height: 0 },
