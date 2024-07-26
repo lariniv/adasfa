@@ -209,7 +209,7 @@ export default function VendorsTable() {
   };
 
   return (
-    <div className="w-full 2xl:w-5/6 h-full max-2xl:px-8 max-sm:px-2 overflow-x-auto">
+    <div className="w-full 2xl:w-5/6 h-full max-2xl:px-8 max-sm:px-2">
       <div className="flex pb-5 justify-between items-center min-w-[1000px] w-full">
         <div className="text-text ">
           {vendors.length !== 0 ? indexOfFirstVendor + 1 : 0}-
@@ -224,7 +224,7 @@ export default function VendorsTable() {
       {!state.isLoading && (
         <ResizablePanelGroup
           direction="horizontal"
-          className="border min-w-[1400px]"
+          className="border min-w-[1400px] w-full"
         >
           {cols.map(({ col, list }, index) => {
             return (
