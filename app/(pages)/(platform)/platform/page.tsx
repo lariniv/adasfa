@@ -1,7 +1,6 @@
 'use client';
 import Filter from './components/Filter';
 import { useEffect, useState } from 'react';
-import { useEffect, useState } from 'react';
 import VendorsTable from './components/VendorsTable';
 import { useAppSelector, useAppStore } from '@/app/store/hooks';
 import Image from 'next/image';

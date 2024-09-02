@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import FilterInput from './FilterInput';
 import { VendorType } from '@/app/store/vendors/vendor-slice';
 export default function Filter({
@@ -29,9 +29,7 @@ export default function Filter({
           <Image
             className={`absolute right-2 top-1/2 transition-transform duration-300 -translate-y-1/2 ${
               isOpen ? 'rotate-180' : 'rotate-0'
-              isOpen ? 'rotate-180' : 'rotate-0'
             }`}
-            src={'chevron-down.svg'}
             src={'chevron-down.svg'}
             width={16}
             height={16}

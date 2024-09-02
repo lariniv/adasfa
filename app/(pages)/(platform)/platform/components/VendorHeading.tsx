@@ -9,10 +9,6 @@ export default function VendorHeading({
   onDragStart,
   onDragOver,
   onDragEnd,
-  col,
-  onDragStart,
-  onDragOver,
-  onDragEnd,
   onClick,
 }: {
   title: string;
@@ -21,10 +17,7 @@ export default function VendorHeading({
   onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
-  col: string;
-  onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
-  onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
-  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+
   onClick: () => void;
 }) {
   return (

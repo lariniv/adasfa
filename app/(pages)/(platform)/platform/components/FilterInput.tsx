@@ -2,8 +2,6 @@ import CheckBox from '@/app/components/CheckBox';
 import useOutsideClick from '@/app/hooks/use-outside-click';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { setCurrentFilter, VendorType } from '@/app/store/vendors/vendor-slice';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { setCurrentFilter, VendorType } from '@/app/store/vendors/vendor-slice';
 import {
   getVendorsAmount,
   getVendorsByPage,
@@ -56,13 +54,6 @@ export default function FilterInput({
       dispatch(getVendorsAmount(null));
     }
   }, [activeHints, field, dispatch]);
-
-  useEffect(() => {
-    if (field === 'name' && inputValue.length >= 3) {
-      dispatch(searchVendors({ search: inputValue, field }));
-      dispatch(setCurrentFilter({ filter: field, value: inputValue }));
-    }
-  }, [inputValue, field, dispatch]);
 
   useOutsideClick(`.${field}`, () => setShowHints(false));
 
