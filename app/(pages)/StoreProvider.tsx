@@ -1,8 +1,11 @@
-"use client";
-import { useRef } from "react";
-import { Provider } from "react-redux";
-import { makeStore, AppStore } from "../store/store";
-import { getAllVendors } from "../store/vendors/vendor-thunks";
+'use client';
+import { useRef } from 'react';
+import { Provider } from 'react-redux';
+import { makeStore, AppStore } from '../store/store';
+import {
+  getVendorsAmount,
+  getVendorsByPage,
+} from '../store/vendors/vendor-thunks';
 
 export default function StoreProvider({
   children,
@@ -12,7 +15,8 @@ export default function StoreProvider({
   const storeRef = useRef<AppStore>();
   if (!storeRef.current) {
     storeRef.current = makeStore();
-    storeRef.current.dispatch(getAllVendors());
+    storeRef.current.dispatch(getVendorsByPage({ page: 1 }));
+    storeRef.current.dispatch(getVendorsAmount());
   }
 
   return <Provider store={storeRef.current}>{children}</Provider>;

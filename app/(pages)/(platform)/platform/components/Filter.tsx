@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FilterInput from './FilterInput';
+import { VendorType } from '@/app/store/vendors/vendor-slice';
 export default function Filter({
   icon,
   label,
@@ -10,15 +11,8 @@ export default function Filter({
   icon: string;
   label: string;
   inputs: {
-    field:
-      | 'location'
-      | 'useCase'
-      | 'name'
-      | 'industry'
-      | 'category'
-      | 'description';
+    field: keyof VendorType;
     label: string;
-    hints?: string[];
   }[];
 }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -52,15 +46,8 @@ export default function Filter({
           className="bg-secondary"
         >
           <div className="w-full h-full px-3 py-4 flex flex-col gap-4">
-            {inputs.map(({ field, label, hints }) => {
-              return (
-                <FilterInput
-                  key={field}
-                  field={field}
-                  label={label}
-                  hints={hints}
-                />
-              );
+            {inputs.map(({ field, label }) => {
+              return <FilterInput key={field} field={field} label={label} />;
             })}
           </div>
         </motion.div>

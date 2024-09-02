@@ -1,6 +1,5 @@
-import { ResizableHandle, ResizablePanel } from '@/components/ui/resizable';
+import { ResizablePanel } from '@/components/ui/resizable';
 import Image from 'next/image';
-import { useEffect, useRef, useCallback } from 'react';
 
 export default function VendorHeading({
   title,
@@ -20,7 +19,7 @@ export default function VendorHeading({
   onClick: () => void;
 }) {
   return (
-    <ResizablePanel defaultSize={100 / 8}>
+    <ResizablePanel defaultSize={100 / 72}>
       <div
         className="relative cursor-move h-full flex p-4 font-semibold whitespace-nowrap"
         draggable

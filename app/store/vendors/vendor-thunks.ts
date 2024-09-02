@@ -8,35 +8,62 @@ import {
   setCurrentFilter,
   VendorState,
   setCurrentSort,
+  setAmount,
+  setCurrentPage,
 } from './vendor-slice';
 
-export const getAllVendors = createAsyncThunk(
-  'getAllVendors',
-  async (_void, { dispatch }) => {
+export const getVendorsByPage = createAsyncThunk(
+  'getVendorsByPage',
+  async (
+    {
+      page,
+      filter = null,
+    }: {
+      page: number;
+      filter?: { filter: keyof VendorType; value: string | string[] } | null;
+    },
+    { dispatch, getState }
+  ) => {
     try {
+      const state = getState() as { vendor: VendorState };
+
       dispatch(setState({ isLoading: true }));
 
-      const response = await api.get('/vendors/all');
+      const response = await api.post(`/vendors/by-page`, {
+        page,
+        vendorsPerPage: 20,
+        vendorsFilter: !filter ? state.vendor.currentFilter : filter,
+      });
+
+      if (filter) {
+        dispatch(setCurrentFilter(filter));
+      }
 
       dispatch(setVendors(response.data));
+      dispatch(setCurrentPage(page));
       dispatch(setState({ isLoading: false }));
-    } catch (error) {}
+    } catch (error) {
+      console.log('error fetching vendors', error);
+    }
   }
 );
 
-export const searchVendors = createAsyncThunk(
-  'searchVendors',
+export const getVendorsAmount = createAsyncThunk(
+  'getVendorsAmount',
   async (
-    { search, field }: { search: string; field: keyof VendorType },
-    { dispatch }
+    filter: { filter: keyof VendorType; value: string | string[] } | null,
+    { dispatch, getState }
   ) => {
     try {
-      const response = await api.get(`/vendors/by-query`, {
-        params: { name: search, field },
+      const state = getState() as { vendor: VendorState };
+      const response = await api.get('/vendors/amount', {
+        params: {
+          filter: filter ? filter.filter : state.vendor.currentFilter.filter,
+          value: filter ? filter.value : state.vendor.currentFilter.value,
+        },
       });
 
-      dispatch(setCurrentFilter({ filter: field, value: search }));
-      dispatch(setVendors(response.data));
+      dispatch(setAmount(response.data));
     } catch (error) {}
   }
 );
@@ -59,12 +86,14 @@ export const searchVendorsByMultipleOptions = createAsyncThunk(
 );
 
 export const getAllHints = createAsyncThunk(
-  'getAllLocations',
+  'getAllHints',
   async (_void, { dispatch }) => {
     try {
+      dispatch(setState({ isLoading: true }));
       const response = await api.get('/vendors/hints');
 
       dispatch(setHints(response.data));
+      dispatch(setState({ isLoading: false }));
     } catch (error) {}
   }
 );
@@ -86,6 +115,8 @@ export const sortVendorsByFIlter = createAsyncThunk(
         vendorsFilter: state.vendor.currentFilter,
         field,
         order,
+        page: state.vendor.currentPage,
+        vendorsPerPage: 20,
       });
 
       dispatch(setCurrentSort({ field, order }));

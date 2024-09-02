@@ -1,17 +1,20 @@
-import { cn } from "../utils/cn";
+import { cn } from '../utils/cn';
 
 export default function CheckBox({
   isChecked,
   onChange,
   className,
+  isDisabled = false,
 }: {
   isChecked: boolean;
   onChange: () => void;
   className?: string;
+  isDisabled?: boolean;
 }) {
   return (
     <>
       <input
+        disabled={isDisabled}
         type="checkbox"
         className="hidden"
         checked={isChecked}
@@ -19,7 +22,7 @@ export default function CheckBox({
       />
       <div
         className={`w-6 h-6 rounded-md cursor-pointer flex items-center border-2 justify-center ${
-          isChecked ? "bg-accent" : "bg-white"
+          isChecked ? 'bg-accent' : 'bg-white'
         }`}
         onClick={onChange}
       >

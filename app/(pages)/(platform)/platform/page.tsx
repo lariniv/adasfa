@@ -9,8 +9,8 @@ import {
   sortVendorsByFIlter,
 } from '@/app/store/vendors/vendor-thunks';
 import { VendorType } from '@/app/store/vendors/vendor-slice';
-import { AnimatePresence, motion } from 'framer-motion';
 import useOutsideClick from '@/app/hooks/use-outside-click';
+import { motion } from 'framer-motion';
 
 export default function LoginPage() {
   const [currentPage, setCurrentPage] = useState<keyof VendorType>('name');
@@ -37,10 +37,6 @@ export default function LoginPage() {
     store.dispatch(sortVendorsByFIlter({ field: currentPage }));
   }, [currentPage]);
 
-  const { locations, useCases, industries, categories } = useAppSelector(
-    (state) => state.vendor.hints
-  );
-
   useOutsideClick('.filters', () => {
     if (window.innerWidth <= 1536) {
       setIsOpen(false);
@@ -48,7 +44,7 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="w-full h-full bg-white">
+    <div className="w-full h-full bg-white overflow-hidden">
       <div className="w-full flex gap-0 pt-4 sm:px-8 text-text font-medium border-b max-md:flex-col">
         <div
           className={`py-4 px-2 sm:px-8 rounded-t-lg cursor-pointer duration-300 transition-colors flex gap-2 items-center ${
@@ -66,7 +62,7 @@ export default function LoginPage() {
         </div>
         <div
           className={`py-4 px-2 sm:px-8 rounded-t-lg duration-300 flex items-center gap-2 transition-colors cursor-not-allowed ${
-            currentPage === 'useCase' ? 'bg-secondary' : 'bg-white'
+            currentPage === 'primaryTask' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('useCase')}
         >
@@ -75,7 +71,7 @@ export default function LoginPage() {
         </div>
         <div
           className={`py-4 px-2 sm:px-8 rounded-t-lg  flex items-center gap-2 duration-300 transition-colors cursor-not-allowed ${
-            currentPage === 'industry' ? 'bg-secondary' : 'bg-white'
+            currentPage === 'applicableTasks' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('industry')}
         >
@@ -84,7 +80,7 @@ export default function LoginPage() {
         </div>
         <div
           className={`py-4 px-2 sm:px-8 flex items-center gap-2 rounded-t-lg duration-300 transition-colors cursor-not-allowed ${
-            currentPage === 'category' ? 'bg-secondary' : 'bg-white'
+            currentPage === 'cons' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('category')}
         >
@@ -97,7 +93,7 @@ export default function LoginPage() {
           Categories
         </div>
       </div>
-      <div className="flex gap-7 pt-3 relative">
+      <div className="flex gap-7 pt-3 relative overflow-x-auto">
         <motion.div
           key={'filters'}
           variants={{
@@ -119,39 +115,39 @@ export default function LoginPage() {
                   label: 'Vendor Name',
                 },
                 {
-                  field: 'location',
-                  label: 'Location',
-                  hints: locations,
+                  field: 'primaryTask',
+                  label: 'Primary Task',
                 },
-                { field: 'description', label: 'Keyword' },
+                { field: 'fullDescription', label: 'Full Description' },
               ]}
             />
             <Filter
-              label="Use Cases"
+              label="Applicable Task"
               icon="filter-bookmark"
               inputs={[
-                { field: 'useCase', label: 'Use Cases', hints: useCases },
+                {
+                  field: 'applicableTasks',
+                  label: 'Applicable Task',
+                },
               ]}
             />
             <Filter
-              label="Industries"
+              label="Pros"
               icon="filter-claw"
               inputs={[
                 {
-                  field: 'industry',
-                  label: 'Industries',
-                  hints: industries,
+                  field: 'pros',
+                  label: 'Pros',
                 },
               ]}
             />
             <Filter
-              label="Categories"
+              label="Cons"
               icon="filter-corporate"
               inputs={[
                 {
-                  field: 'category',
-                  label: 'Category',
-                  hints: categories,
+                  field: 'cons',
+                  label: 'Cons',
                 },
               ]}
             />

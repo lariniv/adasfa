@@ -3,7 +3,6 @@ import {
   capitalizeString,
   transformUnderscoreString,
 } from '@/app/utils/string-helpers';
-import { ISOStringToLL } from '@/app/utils/date-helpers';
 import CheckBox from '@/app/components/CheckBox';
 import Link from 'next/link';
 import { VendorType } from '@/app/store/vendors/vendor-slice';
@@ -28,10 +27,8 @@ export default function VendorRow({ list }: VendorList) {
         if (Array.isArray(item.value)) {
           let name: string = '';
 
-          if (item.field === 'industry') {
-            name = item.value
-              .map((industry) => capitalizeString(industry))
-              .join(', ');
+          if (item.field === 'pros') {
+            name = item.value.map((pro) => capitalizeString(pro)).join(', ');
           } else
             name = item.value
               .map((value) => transformUnderscoreString(value))
@@ -45,9 +42,7 @@ export default function VendorRow({ list }: VendorList) {
         } else {
           let name: string = item.value;
 
-          if (item.field === 'foundedDate') name = ISOStringToLL(item.value);
-
-          if (item.field === 'websiteUrl') {
+          if (item.field === 'detailUrl' || item.field === 'visitWebsiteUrl') {
             return (
               <Link
                 key={index}

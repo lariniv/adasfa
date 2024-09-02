@@ -3,9 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getAllVendors, searchVendors } from '../store/vendors/vendor-thunks';
+import { getVendorsByPage } from '../store/vendors/vendor-thunks';
 import useOutsideClick from '../hooks/use-outside-click';
 import { AnimatePresence, motion } from 'framer-motion';
+import { setCurrentFilter } from '../store/vendors/vendor-slice';
 
 export default function HeaderDashboard() {
   const [inputValue, setInputValue] = useState('');
@@ -14,9 +15,18 @@ export default function HeaderDashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPopup, setIsPopup] = useState(false);
   useEffect(() => {
-    if (inputValue === '') dispatch(getAllVendors());
-    else if (inputValue.length > 2)
-      dispatch(searchVendors({ search: inputValue, field: 'name' }));
+    if (inputValue === '') dispatch(getVendorsByPage({ page: 1 }));
+    else if (inputValue.length >= 3) {
+      dispatch(
+        getVendorsByPage({
+          page: 1,
+          filter: { filter: 'name', value: inputValue },
+        })
+      );
+    } else if (inputValue.length === 0) {
+      dispatch(setCurrentFilter({ filter: null, value: null }));
+      dispatch(getVendorsByPage({ page: 1 }));
+    }
   }, [inputValue, dispatch]);
 
   useOutsideClick('.input-popup', () => setIsOpen(false));
@@ -64,7 +74,7 @@ export default function HeaderDashboard() {
                   <div className="border w-10 h-10 bg-primary rounded"></div>
                   <div className="flex flex-col text-text font-medium text-xs">
                     <div>{vendor.name}</div>
-                    <div>Location · {vendor.location}</div>
+                    <div>Primary Task · {vendor.primaryTask}</div>
                   </div>
                 </div>
               ))}
