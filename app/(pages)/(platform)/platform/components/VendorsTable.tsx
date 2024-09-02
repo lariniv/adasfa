@@ -20,6 +20,7 @@ type QAndA = {
 export default function VendorsTable() {
   const store = useAppStore();
   const [isFetched, setIsFetched] = useState(false);
+  const [isFetched, setIsFetched] = useState(false);
 
   if (!isFetched) {
     store.dispatch(getVendorsByPage({ page: 1 }));
@@ -320,6 +321,31 @@ export default function VendorsTable() {
     setDraggedColumn(null);
   };
 
+  const [draggedColumn, setDraggedColumn] = useState<string | null>(null);
+
+  const handleDragStart = (columnId: string) => {
+    setDraggedColumn(columnId);
+  };
+
+  const handleDragOver = (
+    e: React.DragEvent<HTMLDivElement>,
+    columnId: keyof VendorType
+  ) => {
+    e.preventDefault();
+    if (draggedColumn && draggedColumn !== columnId) {
+      const draggedIndex = cols.findIndex(({ col }) => col === draggedColumn);
+      const targetIndex = cols.findIndex(({ col }) => col === columnId);
+      const newColumns = [...cols];
+      const [removed] = newColumns.splice(draggedIndex, 1);
+      newColumns.splice(targetIndex, 0, removed);
+      setCols(newColumns);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggedColumn(null);
+  };
+
   return (
     <div className="w-full 2xl:w-5/6 h-full max-2xl:px-8 max-sm:px-2 overflow-x-auto min-w-[2000px]">
       <div className="flex pb-5 justify-between items-center min-w-[1000px] w-full">
@@ -362,6 +388,8 @@ export default function VendorsTable() {
         </ResizablePanelGroup>
       )}
       {state.isLoading && (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary" />
         <div className="w-full h-full flex justify-center items-center">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary" />
         </div>

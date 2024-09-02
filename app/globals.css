@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply overflow-x-hidden bg-background-zenith-gradient bg-no-repeat bg-cover h-full w-full;
+  @apply bg-background-zenith-gradient bg-no-repeat bg-cover h-full w-full;
 }
 /* Custom Scrollbar */
 ::-webkit-scrollbar {

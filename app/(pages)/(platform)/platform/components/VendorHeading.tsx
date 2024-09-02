@@ -1,5 +1,6 @@
 import { ResizablePanel } from '@/components/ui/resizable';
 import Image from 'next/image';
+import { useEffect, useRef, useCallback } from 'react';
 
 export default function VendorHeading({
   title,
@@ -8,10 +9,18 @@ export default function VendorHeading({
   onDragStart,
   onDragOver,
   onDragEnd,
+  col,
+  onDragStart,
+  onDragOver,
+  onDragEnd,
   onClick,
 }: {
   title: string;
   isSelected: boolean;
+  col: string;
+  onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   col: string;
   onDragStart: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;

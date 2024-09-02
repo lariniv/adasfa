@@ -1,6 +1,7 @@
 'use client';
 import Filter from './components/Filter';
 import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import VendorsTable from './components/VendorsTable';
 import { useAppSelector, useAppStore } from '@/app/store/hooks';
 import Image from 'next/image';
@@ -51,6 +52,7 @@ export default function LoginPage() {
             currentPage === 'name' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('name')}
+          // onClick={() => setCurrentPage('name')}
         >
           <Image
             src={'/briefcase.svg'}
@@ -65,6 +67,7 @@ export default function LoginPage() {
             currentPage === 'primaryTask' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('useCase')}
+          // onClick={() => setCurrentPage('useCase')}
         >
           <Image src={'/bookmark.svg'} width={24} height={24} alt="bookmark" />
           Use Cases
@@ -74,6 +77,7 @@ export default function LoginPage() {
             currentPage === 'applicableTasks' ? 'bg-secondary' : 'bg-white'
           }`}
           // onClick={() => setCurrentPage('industry')}
+          // onClick={() => setCurrentPage('industry')}
         >
           <Image src={'/claw.svg'} width={24} height={24} alt="filter-claw" />
           Industries
@@ -82,6 +86,7 @@ export default function LoginPage() {
           className={`py-4 px-2 sm:px-8 flex items-center gap-2 rounded-t-lg duration-300 transition-colors cursor-not-allowed ${
             currentPage === 'cons' ? 'bg-secondary' : 'bg-white'
           }`}
+          // onClick={() => setCurrentPage('category')}
           // onClick={() => setCurrentPage('category')}
         >
           <Image
